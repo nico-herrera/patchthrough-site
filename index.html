@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Patchthrough — Record the meeting. Patch the transcript through to your agent.</title>
+<meta name="description" content="Patchthrough records your meetings, transcribes them on your Mac, and gives the transcript to your coding agent — ready in the repository that you discussed.">
+<meta property="og:title" content="Patchthrough">
+<meta property="og:description" content="Record the meeting. Patch the transcript through to your agent. Transcription on your Mac — no account, no server, no upload.">
+<meta property="og:image" content="assets/window.png">
+<meta property="og:type" content="website">
+<meta name="color-scheme" content="dark">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<style>
+  /* Tokens — from Sources/patchthrough/UI/Theme.swift. The only place raw
+     values appear, same rule as the app. */
+  :root {
+    --sunken:   #17160F;
+    --window:   #1C1B17;
+    --raised:   #24231D;
+    --chip:     #2A2822;
+    --hairline: #2C2A23;
+    --border:   #3A3730;
+
+    --text:   #F2F0EA;
+    --text2:  #D8D4CA;
+    --text3:  #A29E93;
+    --label:  #7E7A70;
+    --text5:  #57544C;
+
+    --signal:    #D2371B;
+    --signalLit: #E4633F;
+    --onSignal:  #FFF9F4;
+
+    --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, monospace;
+
+    --radius-card: 8px;
+    --radius-control: 7px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { color-scheme: dark; scroll-behavior: smooth; }
+
+  body {
+    background: var(--window);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15.5px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection { background: var(--signal); color: var(--onSignal); }
+
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+
+  a { color: var(--text3); text-decoration: none; }
+  a:hover { color: var(--text); }
+
+  .micro {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--label);
+  }
+
+  /* --- nav --- */
+  nav {
+    border-bottom: 1px solid var(--hairline);
+  }
+  nav .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .brand svg { width: 19px; height: 19px; }
+  .nav-links { display: flex; align-items: center; gap: 22px; font-size: 12.5px; }
+
+  /* --- hero --- */
+  .hero { padding: 96px 0 72px; text-align: center; }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    background: var(--raised);
+    border: 1px solid var(--hairline);
+    border-radius: 999px;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--text3);
+  }
+  .rec-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--signal);
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse { 50% { opacity: 0.35; } }
+
+  .hero h1 {
+    margin: 26px auto 0;
+    max-width: 760px;
+    font-size: clamp(30px, 5vw, 46px);
+    font-weight: 700;
+    line-height: 1.14;
+    letter-spacing: -0.02em;
+  }
+  .hero .sub {
+    margin: 20px auto 0;
+    max-width: 620px;
+    font-size: 16px;
+    color: var(--text3);
+  }
+  .cta-row {
+    margin-top: 34px;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .install-chip {
+    display: flex;
+    align-items: stretch;
+    background: var(--sunken);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-control);
+    overflow: hidden;
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+  .install-chip .cmd {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 16px;
+    color: var(--text2);
+  }
+  .install-chip .cmd .prompt { color: var(--text5); }
+  .copy-btn {
+    border: none;
+    border-left: 1px solid rgba(255, 249, 244, 0.22);
+    background: var(--signal);
+    color: var(--onSignal);
+    font-family: var(--sans);
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 11px 16px;
+    cursor: pointer;
+  }
+  .copy-btn:hover { background: var(--signalLit); }
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 18px;
+    background: var(--chip);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-control);
+    color: var(--text2);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .btn-ghost:hover { color: var(--text); border-color: var(--label); }
+  .hero .caption { margin-top: 18px; font-size: 11.5px; color: var(--text5); }
+
+  /* --- screenshot --- */
+  .shot { padding: 0 0 88px; }
+  .shot figure {
+    background: var(--raised);
+    border: 1px solid var(--hairline);
+    border-radius: 12px;
+    padding: 10px;
+  }
+  .shot img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    border: 1px solid var(--hairline);
+  }
+  .shot figcaption {
+    padding: 12px 6px 4px;
+    font-size: 11.5px;
+    color: var(--text5);
+    text-align: center;
+  }
+
+  /* --- sections --- */
+  section { padding: 72px 0; border-top: 1px solid var(--hairline); }
+  section h2 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
+  section .lede { margin-top: 12px; max-width: 640px; color: var(--text3); }
+
+  .steps {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .card {
+    background: var(--raised);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-card);
+    padding: 22px;
+  }
+  .card .micro { display: block; margin-bottom: 12px; }
+  .card h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+  .card p { font-size: 13.5px; color: var(--text3); }
+  .card code {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text2);
+    background: var(--sunken);
+    padding: 1.5px 5px;
+    border-radius: 4px;
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 48px;
+    align-items: center;
+  }
+  .terminal {
+    background: var(--sunken);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-card);
+    padding: 18px 20px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.9;
+    color: var(--text2);
+    overflow-x: auto;
+  }
+  .terminal .prompt { color: var(--text5); }
+  .terminal .comment { color: var(--text5); }
+  .split p + p { margin-top: 14px; }
+  .split p { color: var(--text3); font-size: 14.5px; }
+  .split p strong { color: var(--text2); font-weight: 600; }
+  .split code {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--text2);
+    background: var(--sunken);
+    padding: 1.5px 5px;
+    border-radius: 4px;
+  }
+
+  .agents-grid {
+    margin-top: 36px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .agent-chip {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text2);
+    background: var(--raised);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-control);
+    padding: 9px 15px;
+  }
+  .agents-note { margin-top: 26px; max-width: 680px; font-size: 13.5px; color: var(--text3); }
+
+  .trust-list {
+    margin-top: 36px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 14px;
+    list-style: none;
+  }
+  .trust-list .card p { margin-top: 6px; }
+
+  .install-grid {
+    margin-top: 36px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 14px;
+  }
+  .install-grid .terminal { margin-top: 14px; }
+  .install-grid .card p { margin-top: 12px; }
+  .req-line { margin-top: 26px; font-size: 12.5px; color: var(--text5); max-width: 640px; }
+
+  /* --- footer --- */
+  footer {
+    border-top: 1px solid var(--hairline);
+    padding: 32px 0 44px;
+    font-size: 12.5px;
+    color: var(--text5);
+  }
+  footer .wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  footer a { color: var(--text3); }
+  footer a:hover { color: var(--text); }
+
+  @media (max-width: 720px) {
+    .hero { padding: 64px 0 56px; }
+    .steps, .split, .trust-list, .install-grid { grid-template-columns: minmax(0, 1fr); }
+    .split { gap: 28px; }
+    section { padding: 56px 0; }
+  }
+
+  @media (max-width: 560px) {
+    /* Keep the bar to brand + GitHub rather than wrapping the anchor links. */
+    .nav-links a:not(:last-child) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <span class="brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" aria-hidden="true">
+        <g transform="translate(0,-0.45)">
+          <circle cx="12" cy="12" r="6.3" stroke-width="1.6"/>
+          <path d="M2.8 19.2 C 5.2 14.8 7.8 10.9 10.3 9.6 C 12.8 8.3 16.8 7.2 21.2 6.4" stroke-width="1.6"/>
+        </g>
+      </svg>
+      Patchthrough
+    </span>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#agents">Agents</a>
+      <a href="#trust">Trust</a>
+      <a href="https://github.com/nico-herrera/patchthrough">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow"><span class="rec-dot"></span>Record&nbsp;→&nbsp;transcribe&nbsp;→&nbsp;patch&nbsp;through</span>
+    <h1>Record the meeting. Patch the transcript through to your agent.</h1>
+    <p class="sub">
+      Patchthrough records your microphone and the other side of the call as two
+      separate tracks. It transcribes the recording on your Mac. Then it patches
+      the transcript through to your coding agent, ready in the repository that
+      you discussed.
+    </p>
+    <div class="cta-row">
+      <span class="install-chip">
+        <span class="cmd"><span class="prompt">$</span> npm i -g patchthrough</span>
+        <button class="copy-btn" id="copy-btn" type="button">Copy</button>
+      </span>
+      <a class="btn-ghost" href="https://github.com/nico-herrera/patchthrough">View on GitHub</a>
+    </div>
+    <p class="caption">macOS 15+ · Apple Silicon · MIT · no account, no server, no upload</p>
+  </div>
+</header>
+
+<div class="shot">
+  <div class="wrap">
+    <figure>
+      <img src="assets/window.png" alt="The Patchthrough window: a session list on the left, a me/them transcript on the right, and a red Patch through to claude button in the titlebar." width="1052" height="832">
+      <figcaption>Each session shows a me/them transcript. The two audio tracks give the speaker labels directly — you do not need a model that identifies speakers.</figcaption>
+    </figure>
+  </div>
+</div>
+
+<section id="how">
+  <div class="wrap">
+    <span class="micro">How it works</span>
+    <h2>From meeting to working agent in three steps</h2>
+    <div class="steps">
+      <div class="card">
+        <span class="micro">Step 1</span>
+        <h3>Record</h3>
+        <p>Start the recording from the menu bar. Patchthrough records your
+          microphone and all the audio that the Mac plays as two separate
+          tracks. The speech model gets clean single-source audio, and you get
+          me/them speaker labels.</p>
+      </div>
+      <div class="card">
+        <span class="micro">Step 2</span>
+        <h3>Transcribe</h3>
+        <p>Click Stop. The transcription starts automatically. Parakeet TDT runs
+          on the Neural Engine through Core ML. One hour of audio takes
+          approximately 20 seconds, fully on your Mac.</p>
+      </div>
+      <div class="card">
+        <span class="micro">Step 3</span>
+        <h3>Patch through</h3>
+        <p>In the menu bar, click Patch through to claude — or a different agent
+          that Patchthrough finds on your Mac. A terminal opens in your
+          repository with the agent running and the transcript in context. You
+          can also use the command line: <code>patchthrough hand claude</code>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="handoff">
+  <div class="wrap split">
+    <div>
+      <span class="micro">Why it exists</span>
+      <h2>The handoff is the product</h2>
+      <p>One click takes you from <strong>"we agreed on it in the meeting"</strong>
+        to <strong>"an agent is implementing it"</strong>.</p>
+      <p>The agent gets the <strong>full transcript</strong>, not a summary. A
+        summary can lose requirements. The agent also gets a prompt. The prompt
+        tells the agent to find work items, decisions, and open questions. It
+        tells the agent to ask when a term is not clear. And it tells the agent
+        not to change code until you agree on the plan.</p>
+      <p>The transcript goes in the <code>.meeting/</code> directory in your
+        repository. Patchthrough adds that directory to the local git excludes
+        of the repository. Meeting content cannot go into a commit by accident.
+        Patchthrough does not change your <code>.gitignore</code>.</p>
+    </div>
+    <div class="terminal" aria-label="Terminal example">
+      <span class="comment"># in the repository that you discussed</span><br>
+      <span class="prompt">$</span> patchthrough hand claude<br>
+      <br>
+      <span class="comment"># or select a different session and repository</span><br>
+      <span class="prompt">$</span> patchthrough hand claude -s 2026.07.30-2145 -d ~/Code/project<br>
+      <br>
+      <span class="comment"># show the recorded sessions</span><br>
+      <span class="prompt">$</span> patchthrough transcripts
+    </div>
+  </div>
+</section>
+
+<section id="agents">
+  <div class="wrap">
+    <span class="micro">Destinations</span>
+    <h2>Patch through to the agent that you use</h2>
+    <p class="lede">Patchthrough finds the agent command-line tools installed on
+      your Mac. It puts the agents that you use most at the top of the list.</p>
+    <div class="agents-grid">
+      <span class="agent-chip">claude</span>
+      <span class="agent-chip">copilot</span>
+      <span class="agent-chip">codex</span>
+      <span class="agent-chip">kimi</span>
+      <span class="agent-chip">opencode</span>
+      <span class="agent-chip">cursor-agent</span>
+    </div>
+    <p class="agents-note">If you prefer a graphical app: VS Code opens with the
+      transcript attached as chat context. Cursor receives the transcript through
+      a special link. The Claude app gets the transcript file. ChatGPT and Kimi
+      get a full prompt on the clipboard. You can also drag the transcript file
+      from the Patchthrough window into any chat input — including apps that
+      Patchthrough does not know.</p>
+  </div>
+</section>
+
+<section id="trust">
+  <div class="wrap">
+    <span class="micro">Trust</span>
+    <h2>Nothing leaves your machine</h2>
+    <p class="lede">The transcripts of your meetings are sensitive data.
+      Patchthrough controls its full supply chain.</p>
+    <ul class="trust-list">
+      <li class="card">
+        <h3>All data stays on your Mac</h3>
+        <p>Audio, transcripts, and the handoff do not use the network. The only
+          download is the transcription models, one time.</p>
+      </li>
+      <li class="card">
+        <h3>No account, no server, no upload</h3>
+        <p>There is no account to sign in to and no server to breach. Sessions
+          are plain files in <code>~/Recordings/</code>. You own your data.</p>
+      </li>
+      <li class="card">
+        <h3>Exact dependency versions</h3>
+        <p>Patchthrough has two dependencies, each pinned to an exact version.
+          Verification scripts stop the build if a dependency or a model
+          changes. Unreviewed code cannot get into a binary that has microphone
+          access.</p>
+      </li>
+      <li class="card">
+        <h3>One binary</h3>
+        <p>There are no resource bundles and no helper processes. macOS gives
+          the microphone and system-audio permissions to the binary itself.</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section id="install">
+  <div class="wrap">
+    <span class="micro">Install</span>
+    <h2>Install Patchthrough before your next meeting</h2>
+    <div class="install-grid">
+      <div class="card">
+        <span class="micro">npm</span>
+        <div class="terminal">
+          <span class="prompt">$</span> npm i -g patchthrough
+        </div>
+        <p>The installer downloads the signed app from a pinned GitHub release.
+          It checks the SHA-256 hash and the code signature. Then it installs
+          the app in <code>~/Applications</code>. It does not use sudo.</p>
+      </div>
+      <div class="card">
+        <span class="micro">From source</span>
+        <div class="terminal">
+          <span class="prompt">$</span> git clone https://github.com/nico-herrera/patchthrough<br>
+          <span class="prompt">$</span> cd patchthrough &amp;&amp; ./packaging/make-app.sh
+        </div>
+        <p>This builds the app with SwiftPM, signs it, and installs it in
+          <code>~/Applications</code>. To start Patchthrough at login, run
+          <code>patchthrough install --launch-at-login</code>.</p>
+      </div>
+    </div>
+    <p class="req-line">Patchthrough requires macOS 15 or later and Apple
+      Silicon. The transcription models (approximately 600 MB) download one
+      time, on the first use. Record a short test while you are online before
+      your first meeting. Run <code>patchthrough doctor</code> to check that the
+      models are cached.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>MIT · Began as a detached rebuild of
+      <a href="https://github.com/digimata/quill">quill</a> · Transcription by
+      Parakeet TDT through <a href="https://github.com/FluidInference/FluidAudio">FluidAudio</a>
+    </span>
+    <a href="https://github.com/nico-herrera/patchthrough">github.com/nico-herrera/patchthrough</a>
+  </div>
+</footer>
+
+<script>
+  // The only JS on the page: copy the install command. Works without it.
+  (function () {
+    var btn = document.getElementById('copy-btn');
+    var cmd = 'npm i -g patchthrough';
+    function done(ok) {
+      btn.textContent = ok ? 'Copied' : 'Select + copy';
+      setTimeout(function () { btn.textContent = 'Copy'; }, 1600);
+    }
+    btn.addEventListener('click', function () {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(cmd).then(function () { done(true); }, function () { fallback(); });
+      } else { fallback(); }
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = cmd;
+        document.body.appendChild(ta);
+        ta.select();
+        try { done(document.execCommand('copy')); } catch (e) { done(false); }
+        document.body.removeChild(ta);
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
