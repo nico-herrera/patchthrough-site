@@ -7,6 +7,10 @@ dependencies. Visual tokens come from the app's `Sources/patchthrough/UI/Theme.s
 copy follows `design/DESIGN_RULES.md` (sentence case, "Patch through to", red
 only on the record dot and primary action).
 
+The macOS app and npm CLI are separate downloads. Keep the GitHub Releases app
+as the primary call to action; npm installs only the standalone transcript
+client and must never be described as an app installer.
+
 ## Deploy
 
 Push this folder to its own repo and enable GitHub Pages on the default branch,
