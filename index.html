@@ -296,6 +296,10 @@
     padding: 9px 15px;
   }
   .agents-note { margin-top: 26px; max-width: 680px; font-size: 13.5px; color: var(--text3); }
+  .agents-note + .agents-note { margin-top: 14px; }
+  /* Chips sit inside a destination card here, not alone under a heading. */
+  .destinations .agents-grid { margin-top: 14px; gap: 8px; }
+  .destinations .agent-chip { font-size: 12px; padding: 6px 10px; }
 
   .trust-list {
     margin-top: 36px;
@@ -426,8 +430,8 @@
       <div class="card">
         <span class="micro">Step 3</span>
         <h3>Patch through</h3>
-        <p>In the menu bar, click Patch through to claude, or to a different agent
-          that Patchthrough finds on your Mac. A terminal opens in your
+        <p>In the menu bar, click Patch through to Claude Code, or to a different
+          destination that Patchthrough finds on your Mac. A terminal opens in your
           repository with the agent running and the transcript in context. You
           can also use the command line: <code>patchthrough hand claude</code>.</p>
       </div>
@@ -469,39 +473,72 @@
   <div class="wrap">
     <span class="micro">Destinations</span>
     <h2>Patch through to the agent that you use</h2>
-    <p class="lede">Patchthrough finds the agent command-line tools installed on
-      your Mac. It puts the agents that you use most at the top of the list.</p>
-    <div class="agents-grid">
-      <span class="agent-chip">claude</span>
-      <span class="agent-chip">copilot</span>
-      <span class="agent-chip">codex</span>
-      <span class="agent-chip">kimi</span>
-      <span class="agent-chip">opencode</span>
-      <span class="agent-chip">cursor-agent</span>
+    <p class="lede">Patchthrough finds what is installed on your Mac and groups it
+      the way you think about it. It puts the destinations that you use most at the
+      top of the list.</p>
+    <div class="steps destinations">
+      <div class="card">
+        <span class="micro">Terminal</span>
+        <h3>A session in your repository</h3>
+        <p>The transcript stages in the repository you pick, and the agent starts
+          with a prompt pointing at it.</p>
+        <div class="agents-grid">
+          <span class="agent-chip">claude</span>
+          <span class="agent-chip">codex</span>
+          <span class="agent-chip">copilot</span>
+          <span class="agent-chip">kimi</span>
+          <span class="agent-chip">opencode</span>
+          <span class="agent-chip">cursor-agent</span>
+        </div>
+      </div>
+      <div class="card">
+        <span class="micro">App</span>
+        <h3>The apps already on your Mac</h3>
+        <p>VS Code opens through its own chat command with the transcript as
+          context. Cursor gets a link. The Claude app opens a new chat, or a Claude
+          Code session in your project. ChatGPT, Kimi, and Microsoft 365 Copilot
+          open with the transcript ready to attach.</p>
+      </div>
+      <div class="card">
+        <span class="micro">Web</span>
+        <h3>No app to install</h3>
+        <p>Claude, ChatGPT, and Microsoft 365 Copilot in the browser. Patchthrough
+          opens a new chat and attaches the transcript. For Microsoft this is the
+          only way to attach a file at all.</p>
+      </div>
     </div>
-    <p class="agents-note">If you prefer a graphical app: VS Code opens with the
-      transcript attached as chat context. Cursor receives the transcript through
-      a special link. The Claude app opens straight into a new chat, or into a
-      Claude Code session in your project with the transcript staged inside it.
-      ChatGPT and Kimi open with the transcript file on the clipboard, and
-      Patchthrough pastes it in as an attachment. You can also drag the transcript
-      file
-      from the Patchthrough window into any chat input, including apps that
-      Patchthrough does not know.</p>
+    <p class="agents-note">The handoff works the same way everywhere: Patchthrough
+      puts the transcript on your clipboard as a file and pastes it in as an
+      attachment, so the agent gets a document rather than a wall of pasted text.
+      You can also drag that file from the Patchthrough window into any chat input,
+      including apps that Patchthrough has never heard of. One caveat worth knowing:
+      Microsoft copies a file you attach into your work OneDrive, so Patchthrough
+      asks before that handoff, and every other destination keeps the transcript on
+      your Mac.</p>
+    <p class="agents-note">Your own tools count too. Point Patchthrough at any web
+      app with a chat box and it appears under <strong>Custom</strong>, on your
+      machine only, through one entry in the config file.</p>
   </div>
 </section>
 
 <section id="trust">
   <div class="wrap">
     <span class="micro">Trust</span>
-    <h2>Nothing leaves your machine</h2>
+    <h2>Your meetings stay yours</h2>
     <p class="lede">The transcripts of your meetings are sensitive data.
       Patchthrough pins and verifies its supply chain.</p>
     <ul class="trust-list">
       <li class="card">
-        <h3>All data stays on your Mac</h3>
-        <p>Audio, transcripts, and the handoff do not use the network. The only
-          download is the transcription models, one time.</p>
+        <h3>Recording and transcription never use the network</h3>
+        <p>Audio and transcripts stay on your Mac. The only download is the
+          transcription models, one time.</p>
+      </li>
+      <li class="card">
+        <h3>A handoff goes only where you send it</h3>
+        <p>Patchthrough has no server of its own, so a transcript reaches exactly
+          the destination you pick and nothing else. Every destination keeps the
+          file on your Mac, with one exception: Microsoft copies a file you attach
+          into your work OneDrive, and Patchthrough asks you first.</p>
       </li>
       <li class="card">
         <h3>No account, no server, no upload</h3>
@@ -546,10 +583,10 @@
         <div class="terminal">
           <span class="prompt">$</span> npm i -g patchthrough
         </div>
-        <p>The npm package only handles transcripts and terminal agents. It has
-          no install scripts and never downloads the native app. It can read
-          sessions from the app. It also accepts any transcript file, or text
-          piped in from another command.</p>
+        <p>The npm package handles transcripts, terminal agents, and the web
+          destinations. It has no install scripts and never downloads the native
+          app. It can read sessions from the app. It also accepts any transcript
+          file, or text piped in from another command.</p>
       </div>
     </div>
     <p class="req-line">Patchthrough requires macOS 15 or later and Apple
