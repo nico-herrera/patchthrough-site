@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Patchthrough — Record the meeting. Patch the transcript through to your agent.</title>
-<meta name="description" content="Patchthrough records your meetings, transcribes them on your Mac, and gives the transcript to your coding agent — ready in the repository that you discussed.">
+<title>Patchthrough: Record the meeting. Patch the transcript through to your agent.</title>
+<meta name="description" content="Patchthrough records your meetings, transcribes them on your Mac, and gives the transcript to your coding agent, ready in the repository that you discussed.">
 <meta property="og:title" content="Patchthrough">
-<meta property="og:description" content="Record the meeting. Patch the transcript through to your agent. Transcription on your Mac — no account, no server, no upload.">
+<meta property="og:description" content="Record the meeting. Patch the transcript through to your agent. Transcription happens on your Mac. No account, no server, no upload.">
 <meta property="og:image" content="assets/window.png">
 <meta property="og:type" content="website">
 <meta name="color-scheme" content="dark">
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <style>
-  /* Tokens — from Sources/patchthrough/UI/Theme.swift. The only place raw
+  /* Tokens, from Sources/patchthrough/UI/Theme.swift. The only place raw
      values appear, same rule as the app. */
   :root {
     --sunken:   #17160F;
@@ -386,14 +386,17 @@
       </span>
     </div>
     <p class="caption">macOS 15+ · Apple Silicon · MIT · no account, no server, no upload</p>
+    <p class="caption">Patchthrough records the other side of the call. Tell the
+      people in the meeting that you are recording. Local law may require their
+      consent.</p>
   </div>
 </header>
 
 <div class="shot">
   <div class="wrap">
     <figure>
-      <img src="assets/window.png" alt="The Patchthrough window: a session list on the left, a me/them transcript on the right, and a red Patch through to claude button in the titlebar." width="1052" height="832">
-      <figcaption>Each session shows a me/them transcript. The two audio tracks give the speaker labels directly — you do not need a model that identifies speakers.</figcaption>
+      <img src="assets/window.png" alt="The Patchthrough window: a session list on the left, a transcript on the right with every line labelled by speaker, and a red Patch through to claude button in the titlebar." width="1052" height="832">
+      <figcaption>Each session shows who said what. Your microphone is "me" and the audio the Mac played is "them", so the two tracks give the speaker labels directly. You do not need a model that identifies speakers.</figcaption>
     </figure>
   </div>
 </div>
@@ -409,19 +412,21 @@
         <p>Start the recording from the menu bar. Patchthrough records your
           microphone and all the audio that the Mac plays as two separate
           tracks. The speech model gets clean single-source audio, and you get
-          me/them speaker labels.</p>
+          me/them speaker labels. "All the audio" is literal: notification
+          sounds and music land in the transcript too.</p>
       </div>
       <div class="card">
         <span class="micro">Step 2</span>
         <h3>Transcribe</h3>
         <p>Click Stop. The transcription starts automatically. Parakeet TDT runs
           on the Neural Engine through Core ML. One hour of audio takes
-          approximately 20 seconds, fully on your Mac.</p>
+          approximately 20 seconds, fully on your Mac. Parakeet transcribes
+          English only.</p>
       </div>
       <div class="card">
         <span class="micro">Step 3</span>
         <h3>Patch through</h3>
-        <p>In the menu bar, click Patch through to claude — or a different agent
+        <p>In the menu bar, click Patch through to claude, or to a different agent
           that Patchthrough finds on your Mac. A terminal opens in your
           repository with the agent running and the transcript in context. You
           can also use the command line: <code>patchthrough hand claude</code>.</p>
@@ -478,7 +483,7 @@
       transcript attached as chat context. Cursor receives the transcript through
       a special link. The Claude app gets the transcript file. ChatGPT and Kimi
       get a full prompt on the clipboard. You can also drag the transcript file
-      from the Patchthrough window into any chat input — including apps that
+      from the Patchthrough window into any chat input, including apps that
       Patchthrough does not know.</p>
   </div>
 </section>
@@ -488,7 +493,7 @@
     <span class="micro">Trust</span>
     <h2>Nothing leaves your machine</h2>
     <p class="lede">The transcripts of your meetings are sensitive data.
-      Patchthrough controls its full supply chain.</p>
+      Patchthrough pins and verifies its supply chain.</p>
     <ul class="trust-list">
       <li class="card">
         <h3>All data stays on your Mac</h3>
@@ -504,8 +509,8 @@
         <h3>Exact dependency versions</h3>
         <p>Patchthrough has two dependencies, each pinned to an exact version.
           Verification scripts stop the build if a dependency or a model
-          changes. Unreviewed code cannot get into a binary that has microphone
-          access.</p>
+          changes. No version range can pull new code into a binary that has
+          microphone access.</p>
       </li>
       <li class="card">
         <h3>Explicit installation</h3>
@@ -529,7 +534,7 @@
         </div>
         <p>Open the disk image and drag Patchthrough into Applications. Releases
           are signed and notarized, hosted on
-          <a href="https://github.com/nico-herrera/patchthrough/releases">GitHub Releases</a> —
+          <a href="https://github.com/nico-herrera/patchthrough/releases">GitHub Releases</a>.
           Patchthrough is open source and not distributed through the Mac App
           Store. Launch at login is available in Settings.</p>
       </div>
@@ -540,7 +545,8 @@
         </div>
         <p>The npm package only handles transcripts and terminal agents. It has
           no install scripts and never downloads the native app. It can read
-          sessions from the app or accept any transcript file or stdin.</p>
+          sessions from the app. It also accepts any transcript file, or text
+          piped in from another command.</p>
       </div>
     </div>
     <p class="req-line">Patchthrough requires macOS 15 or later and Apple
