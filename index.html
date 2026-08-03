@@ -300,6 +300,16 @@
   /* Chips sit inside a destination card here, not alone under a heading. */
   .destinations .agents-grid { margin-top: 14px; gap: 8px; }
   .destinations .agent-chip { font-size: 12px; padding: 6px 10px; }
+  /* Product names get the same chip shape without the monospace: "Microsoft
+     365 Copilot" in mono reads as a command. */
+  .dest-chip {
+    font-size: 12px;
+    color: var(--text2);
+    background: var(--raised);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-control);
+    padding: 6px 10px;
+  }
 
   .trust-list {
     margin-top: 36px;
@@ -399,8 +409,8 @@
 <div class="shot">
   <div class="wrap">
     <figure>
-      <img src="assets/window.png" alt="The Patchthrough window: a list of recorded meetings on the left, a transcript on the right with every line labelled by speaker, and a red Patch through to Claude Code button in the titlebar." width="1064" height="833">
-      <figcaption>Each session shows who said what. Your microphone is "me" and the audio the Mac played is "them", so the two tracks give the speaker labels directly. You do not need a model that identifies speakers.</figcaption>
+      <img src="assets/window.png" alt="The Patchthrough window: a list of recorded meetings on the left, several of them named, a transcript on the right with every line labelled by speaker, and a red Patch through to Claude Code button in the titlebar." width="952" height="721">
+      <figcaption>Each session shows who said what. Your microphone is "me" and the audio the Mac played is "them", so the two tracks give the speaker labels directly. You do not need a model that identifies speakers. Name a meeting and the name replaces the first line everywhere.</figcaption>
     </figure>
   </div>
 </div>
@@ -494,17 +504,29 @@
       <div class="card">
         <span class="micro">App</span>
         <h3>The apps already on your Mac</h3>
-        <p>VS Code opens through its own chat command with the transcript as
-          context. Cursor gets a link. The Claude app opens a new chat, or a Claude
-          Code session in your project. ChatGPT, Kimi, and Microsoft 365 Copilot
-          open with the transcript ready to attach.</p>
+        <p>VS Code opens its chat command with the transcript as context. Cursor
+          gets a link. The chat apps open with the transcript ready to attach.</p>
+        <div class="agents-grid">
+          <span class="dest-chip">VS Code (Copilot)</span>
+          <span class="dest-chip">Cursor</span>
+          <span class="dest-chip">Claude Chat/Cowork</span>
+          <span class="dest-chip">Claude Code</span>
+          <span class="dest-chip">ChatGPT</span>
+          <span class="dest-chip">Kimi</span>
+          <span class="dest-chip">Microsoft 365 Copilot</span>
+        </div>
       </div>
       <div class="card">
         <span class="micro">Web</span>
         <h3>No app to install</h3>
-        <p>Claude, ChatGPT, and Microsoft 365 Copilot in the browser. Patchthrough
-          opens a new chat and attaches the transcript. For Microsoft this is the
-          only way to attach a file at all.</p>
+        <p>Patchthrough opens a new chat in your browser and attaches the
+          transcript. For Microsoft this is the only way to attach a file at
+          all.</p>
+        <div class="agents-grid">
+          <span class="dest-chip">Claude</span>
+          <span class="dest-chip">ChatGPT</span>
+          <span class="dest-chip">Microsoft 365 Copilot</span>
+        </div>
       </div>
     </div>
     <p class="agents-note">The handoff works the same way everywhere: Patchthrough
