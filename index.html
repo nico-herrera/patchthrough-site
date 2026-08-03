@@ -153,18 +153,31 @@
     color: var(--text2);
   }
   .install-chip .cmd .prompt { color: var(--text5); }
+  .install-chip .comment { color: var(--text5); }
   .copy-btn {
     border: none;
-    border-left: 1px solid rgba(255, 249, 244, 0.22);
-    background: var(--signal);
-    color: var(--onSignal);
+    border-left: 1px solid var(--hairline);
+    background: var(--chip);
+    color: var(--text2);
     font-family: var(--sans);
     font-size: 12.5px;
     font-weight: 600;
     padding: 11px 16px;
     cursor: pointer;
   }
-  .copy-btn:hover { background: var(--signalLit); }
+  .copy-btn:hover { background: var(--raised); color: var(--text); }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 18px;
+    background: var(--signal);
+    border: 1px solid var(--signal);
+    border-radius: var(--radius-control);
+    color: var(--onSignal);
+    font-size: 13px;
+    font-weight: 650;
+  }
+  .btn-primary:hover { background: var(--signalLit); border-color: var(--signalLit); }
   .btn-ghost {
     display: inline-flex;
     align-items: center;
@@ -366,11 +379,11 @@
       you discussed.
     </p>
     <div class="cta-row">
+      <a class="btn-primary" href="https://github.com/nico-herrera/patchthrough/releases/latest/download/Patchthrough-arm64.dmg">Download for macOS</a>
       <span class="install-chip">
-        <span class="cmd"><span class="prompt">$</span> npm i -g patchthrough</span>
+        <span class="cmd"><span class="prompt">$</span> npm i -g patchthrough <span class="comment"># CLI</span></span>
         <button class="copy-btn" id="copy-btn" type="button">Copy</button>
       </span>
-      <a class="btn-ghost" href="https://github.com/nico-herrera/patchthrough">View on GitHub</a>
     </div>
     <p class="caption">macOS 15+ · Apple Silicon · MIT · no account, no server, no upload</p>
   </div>
@@ -495,9 +508,10 @@
           access.</p>
       </li>
       <li class="card">
-        <h3>One binary</h3>
-        <p>There are no resource bundles and no helper processes. macOS gives
-          the microphone and system-audio permissions to the binary itself.</p>
+        <h3>Explicit installation</h3>
+        <p>The macOS app comes from GitHub Releases. The npm package is a plain
+          JavaScript transcript client with no install scripts or native
+          downloads.</p>
       </li>
     </ul>
   </div>
@@ -506,33 +520,34 @@
 <section id="install">
   <div class="wrap">
     <span class="micro">Install</span>
-    <h2>Install Patchthrough before your next meeting</h2>
+    <h2>Install the app, the CLI, or both</h2>
     <div class="install-grid">
       <div class="card">
-        <span class="micro">npm</span>
+        <span class="micro">macOS app</span>
+        <div class="terminal">
+          <a href="https://github.com/nico-herrera/patchthrough/releases/latest/download/Patchthrough-arm64.dmg">Download Patchthrough-arm64.dmg →</a>
+        </div>
+        <p>Open the disk image and drag Patchthrough into Applications. Releases
+          are signed and notarized, hosted on
+          <a href="https://github.com/nico-herrera/patchthrough/releases">GitHub Releases</a> —
+          Patchthrough is open source and not distributed through the Mac App
+          Store. Launch at login is available in Settings.</p>
+      </div>
+      <div class="card">
+        <span class="micro">Optional CLI</span>
         <div class="terminal">
           <span class="prompt">$</span> npm i -g patchthrough
         </div>
-        <p>The installer downloads the signed app from a pinned GitHub release.
-          It checks the SHA-256 hash and the code signature. Then it installs
-          the app in <code>~/Applications</code>. It does not use sudo.</p>
-      </div>
-      <div class="card">
-        <span class="micro">From source</span>
-        <div class="terminal">
-          <span class="prompt">$</span> git clone https://github.com/nico-herrera/patchthrough<br>
-          <span class="prompt">$</span> cd patchthrough &amp;&amp; ./packaging/make-app.sh
-        </div>
-        <p>This builds the app with SwiftPM, signs it, and installs it in
-          <code>~/Applications</code>. To start Patchthrough at login, run
-          <code>patchthrough install --launch-at-login</code>.</p>
+        <p>The npm package only handles transcripts and terminal agents. It has
+          no install scripts and never downloads the native app. It can read
+          sessions from the app or accept any transcript file or stdin.</p>
       </div>
     </div>
     <p class="req-line">Patchthrough requires macOS 15 or later and Apple
       Silicon. The transcription models (approximately 600 MB) download one
       time, on the first use. Record a short test while you are online before
-      your first meeting. Run <code>patchthrough doctor</code> to check that the
-      models are cached.</p>
+      your first meeting. To build the app yourself, clone the repository and
+      run <code>./packaging/make-app.sh</code>.</p>
   </div>
 </section>
 
