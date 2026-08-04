@@ -6,7 +6,7 @@
 <title>Patchthrough: Record the meeting. Patch the transcript through to your agent.</title>
 <meta name="description" content="Patchthrough records meetings and transcribes them on-device. Download the macOS app, follow the Windows recorder preview, or install the cross-platform CLI.">
 <meta property="og:title" content="Patchthrough">
-<meta property="og:description" content="Record the meeting. Patch the transcript through to your agent. macOS is available now, Windows is in hardware validation, and the CLI is cross-platform.">
+<meta property="og:description" content="Record the meeting. Patch the transcript through to your agent. macOS is available now, the Windows installer preview is in hardware validation, and the CLI is cross-platform.">
 <meta property="og:image" content="assets/window.png">
 <meta property="og:type" content="website">
 <meta name="color-scheme" content="dark">
@@ -402,7 +402,7 @@
     <h1>Record the meeting. Patch the transcript through to your agent.</h1>
     <p class="sub">
       Patchthrough records your microphone and the other side of the call as two
-      separate tracks. It transcribes the recording on your Mac. Then it patches
+      separate tracks. It transcribes the recording on your computer. Then it patches
       the transcript through to your coding agent, ready in the repository that
       you discussed.
     </p>
@@ -413,7 +413,7 @@
         <button class="copy-btn" id="copy-btn" type="button">Copy</button>
       </span>
     </div>
-    <p class="caption">macOS app available now · Windows recorder in hardware validation · cross-platform CLI</p>
+    <p class="caption">macOS app available now · Windows installer preview in hardware validation · cross-platform CLI</p>
     <p class="caption">Patchthrough records the other side of the call. Tell the
       people in the meeting that you are recording. Local law may require their
       consent.</p>
@@ -432,10 +432,11 @@
 <section id="platforms">
   <div class="wrap">
     <span class="micro">Platforms</span>
-    <h2>macOS today. Windows is next.</h2>
+    <h2>macOS available. Windows preview in validation.</h2>
     <p class="lede">The recorders are native to each operating system, while
-      every session uses the same transcript contract. Nothing is being called
-      released before it works on real hardware.</p>
+      every session uses the same transcript contract. Windows packaging is
+      implemented; automated verification and supported hardware remain the
+      release boundary.</p>
     <div class="steps">
       <div class="card platform-card">
         <span class="micro">Available now</span>
@@ -445,13 +446,14 @@
         <a class="platform-link" href="https://github.com/nico-herrera/patchthrough/releases/latest/download/Patchthrough-arm64.dmg">Download for macOS →</a>
       </div>
       <div class="card platform-card">
-        <span class="micro">Hardware validation</span>
+        <span class="micro">Installer preview</span>
         <h3>Windows recorder</h3>
         <p>Microphone capture, WASAPI loopback, local Parakeet and Whisper
-          transcription, and the shared session format are implemented. Real
-          devices, codecs, model runtimes, and recovery paths are being tested
-          before an installer is published.</p>
-        <a class="platform-link" href="https://github.com/nico-herrera/patchthrough/blob/main/windows/README.md">Follow Windows progress →</a>
+          transcription, the shared session format, a self-contained x64 ZIP,
+          and a per-user installer are implemented. Automated install, run, and
+          uninstall verification is underway. Physical hardware and publisher
+          signing remain before public release.</p>
+        <a class="platform-link" href="https://github.com/nico-herrera/patchthrough/blob/main/windows/README.md">Review the Windows preview →</a>
       </div>
       <div class="card platform-card">
         <span class="micro">Available now</span>
@@ -661,10 +663,12 @@
           file, or text piped in from another command.</p>
       </div>
     </div>
-    <p class="req-line">The Windows recorder is not a public download yet. It
-      remains in hardware validation until microphone and loopback capture,
-      codecs, model inference, device changes, and recoverable failures pass on
-      a physical Windows machine. <a href="https://github.com/nico-herrera/patchthrough/blob/main/docs/windows-hardware-acceptance.md">See the acceptance checklist →</a></p>
+    <p class="req-line">The Windows recorder has an installer preview, not a
+      public download. Release still requires automated package verification,
+      publisher signing, plus microphone and loopback capture, codecs, model
+      inference, device changes, and recoverable failures to pass on physical
+      Windows hardware.
+      <a href="https://github.com/nico-herrera/patchthrough/blob/main/docs/windows-hardware-acceptance.md">See the acceptance checklist →</a></p>
     <p class="req-line">Patchthrough requires macOS 15 or later and Apple
       Silicon. The transcription models (approximately 600 MB) download one
       time, on the first use. Record a short test while you are online before
