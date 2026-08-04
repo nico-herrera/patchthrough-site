@@ -12,6 +12,11 @@ The macOS app and the npm CLI are separate downloads. Keep the GitHub Releases
 app as the primary call to action. The npm package installs only the standalone
 transcript client. Never describe the npm package as an app installer.
 
+Platform copy has one release boundary: the macOS app and cross-platform CLI are
+available now; the Windows recorder is a hardware-validation preview. Link to its
+public progress and acceptance checklist, but do not add a Windows download until
+the repository publishes a tested installer.
+
 ## Deploy
 
 Push this folder to its own repository and enable GitHub Pages on the default

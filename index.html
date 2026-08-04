@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Patchthrough: Record the meeting. Patch the transcript through to your agent.</title>
-<meta name="description" content="Patchthrough records your meetings, transcribes them on your Mac, and gives the transcript to your coding agent, ready in the repository that you discussed.">
+<meta name="description" content="Patchthrough records meetings and transcribes them on-device. Download the macOS app, follow the Windows recorder preview, or install the cross-platform CLI.">
 <meta property="og:title" content="Patchthrough">
-<meta property="og:description" content="Record the meeting. Patch the transcript through to your agent. Transcription happens on your Mac. No account, no server, no upload.">
+<meta property="og:description" content="Record the meeting. Patch the transcript through to your agent. macOS is available now, Windows is in hardware validation, and the CLI is cross-platform.">
 <meta property="og:image" content="assets/window.png">
 <meta property="og:type" content="website">
 <meta name="color-scheme" content="dark">
@@ -297,6 +297,19 @@
   }
   .agents-note { margin-top: 26px; max-width: 680px; font-size: 13.5px; color: var(--text3); }
   .agents-note + .agents-note { margin-top: 14px; }
+  .platform-card {
+    display: flex;
+    flex-direction: column;
+  }
+  .platform-card p { flex: 1; }
+  .platform-link {
+    align-self: flex-start;
+    margin-top: 18px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text2);
+  }
+  .platform-link:hover { color: var(--text); }
   /* Chips sit inside a destination card here, not alone under a heading. */
   .destinations .agents-grid { margin-top: 14px; gap: 8px; }
   .destinations .agent-chip { font-size: 12px; padding: 6px 10px; }
@@ -375,6 +388,7 @@
     </span>
     <div class="nav-links">
       <a href="#how">How it works</a>
+      <a href="#platforms">Platforms</a>
       <a href="#agents">Agents</a>
       <a href="#trust">Trust</a>
       <a href="https://github.com/nico-herrera/patchthrough">GitHub</a>
@@ -399,7 +413,7 @@
         <button class="copy-btn" id="copy-btn" type="button">Copy</button>
       </span>
     </div>
-    <p class="caption">macOS 15+ · Apple Silicon · MIT · no account, no server, no upload</p>
+    <p class="caption">macOS app available now · Windows recorder in hardware validation · cross-platform CLI</p>
     <p class="caption">Patchthrough records the other side of the call. Tell the
       people in the meeting that you are recording. Local law may require their
       consent.</p>
@@ -414,6 +428,42 @@
     </figure>
   </div>
 </div>
+
+<section id="platforms">
+  <div class="wrap">
+    <span class="micro">Platforms</span>
+    <h2>macOS today. Windows is next.</h2>
+    <p class="lede">The recorders are native to each operating system, while
+      every session uses the same transcript contract. Nothing is being called
+      released before it works on real hardware.</p>
+    <div class="steps">
+      <div class="card platform-card">
+        <span class="micro">Available now</span>
+        <h3>macOS recorder</h3>
+        <p>Record your microphone and system audio as separate tracks, transcribe
+          fully on-device, and patch the transcript directly into your agent.</p>
+        <a class="platform-link" href="https://github.com/nico-herrera/patchthrough/releases/latest/download/Patchthrough-arm64.dmg">Download for macOS →</a>
+      </div>
+      <div class="card platform-card">
+        <span class="micro">Hardware validation</span>
+        <h3>Windows recorder</h3>
+        <p>Microphone capture, WASAPI loopback, local Parakeet and Whisper
+          transcription, and the shared session format are implemented. Real
+          devices, codecs, model runtimes, and recovery paths are being tested
+          before an installer is published.</p>
+        <a class="platform-link" href="https://github.com/nico-herrera/patchthrough/blob/main/windows/README.md">Follow Windows progress →</a>
+      </div>
+      <div class="card platform-card">
+        <span class="micro">Available now</span>
+        <h3>Cross-platform CLI</h3>
+        <p>Install the transcript client on macOS, Windows, or Linux. Hand files
+          to terminal agents everywhere, with browser handoffs on macOS and
+          Windows.</p>
+        <a class="platform-link" href="#install">Install the CLI →</a>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section id="how">
   <div class="wrap">
@@ -483,7 +533,7 @@
   <div class="wrap">
     <span class="micro">Destinations</span>
     <h2>Patch through to the agent that you use</h2>
-    <p class="lede">Patchthrough finds what is installed on your Mac and groups it
+    <p class="lede">The macOS app finds what is installed on your Mac and groups it
       the way you think about it. It puts the destinations that you use most at the
       top of the list.</p>
     <div class="steps destinations">
@@ -552,14 +602,14 @@
     <ul class="trust-list">
       <li class="card">
         <h3>Recording and transcription never use the network</h3>
-        <p>Audio and transcripts stay on your Mac. The only download is the
+        <p>Audio and transcripts stay on your computer. The only download is the
           transcription models, one time.</p>
       </li>
       <li class="card">
         <h3>A handoff goes only where you send it</h3>
         <p>Patchthrough has no server of its own, so a transcript reaches exactly
           the destination you pick and nothing else. Every destination keeps the
-          file on your Mac, with one exception: Microsoft copies a file you attach
+          file on your computer, with one exception: Microsoft copies a file you attach
           into your work OneDrive, and Patchthrough asks you first.</p>
       </li>
       <li class="card">
@@ -569,7 +619,7 @@
       </li>
       <li class="card">
         <h3>Exact dependency versions</h3>
-        <p>Patchthrough has two dependencies, each pinned to an exact version.
+        <p>Patchthrough pins native dependencies to exact versions.
           Verification scripts stop the build if a dependency or a model
           changes. No version range can pull new code into a binary that has
           microphone access.</p>
@@ -611,6 +661,10 @@
           file, or text piped in from another command.</p>
       </div>
     </div>
+    <p class="req-line">The Windows recorder is not a public download yet. It
+      remains in hardware validation until microphone and loopback capture,
+      codecs, model inference, device changes, and recoverable failures pass on
+      a physical Windows machine. <a href="https://github.com/nico-herrera/patchthrough/blob/main/docs/windows-hardware-acceptance.md">See the acceptance checklist →</a></p>
     <p class="req-line">Patchthrough requires macOS 15 or later and Apple
       Silicon. The transcription models (approximately 600 MB) download one
       time, on the first use. Record a short test while you are online before
