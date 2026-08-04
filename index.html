@@ -451,8 +451,8 @@
         <p>Microphone capture, WASAPI loopback, local Parakeet and Whisper
           transcription, the shared session format, a self-contained x64 ZIP,
           and a per-user installer are implemented. Automated install, run, and
-          uninstall verification is underway. Physical hardware and publisher
-          signing remain before public release.</p>
+          uninstall verification now runs on every change. Physical hardware
+          acceptance and publisher signing remain before public release.</p>
         <a class="platform-link" href="https://github.com/nico-herrera/patchthrough/blob/main/windows/README.md">Review the Windows preview →</a>
       </div>
       <div class="card platform-card">
@@ -664,10 +664,10 @@
       </div>
     </div>
     <p class="req-line">The Windows recorder has an installer preview, not a
-      public download. Release still requires automated package verification,
-      publisher signing, plus microphone and loopback capture, codecs, model
-      inference, device changes, and recoverable failures to pass on physical
-      Windows hardware.
+      public download. Automated package verification now passes on every
+      change. Release still requires publisher signing, plus microphone and
+      loopback capture, codecs, model inference, device changes, and recoverable
+      failures to pass on physical Windows hardware.
       <a href="https://github.com/nico-herrera/patchthrough/blob/main/docs/windows-hardware-acceptance.md">See the acceptance checklist →</a></p>
     <p class="req-line">Patchthrough requires macOS 15 or later and Apple
       Silicon. The transcription models (approximately 600 MB) download one
@@ -677,11 +677,53 @@
   </div>
 </section>
 
+<section id="code-signing">
+  <div class="wrap">
+    <span class="micro">Code signing</span>
+    <h2>How releases are built and signed</h2>
+    <div class="install-grid">
+      <div class="card">
+        <span class="micro">Build and signing policy</span>
+        <p>Every Windows release is built by a public GitHub Actions workflow in
+          the project repository. No release artifact is built or signed on a
+          personal computer. The dependency graph is locked, and the installer
+          compiler is pinned to a verified release.</p>
+        <p>Windows code signing is provided by
+          <a href="https://signpath.io">SignPath.io</a>, with a certificate from
+          the <a href="https://signpath.org">SignPath Foundation</a>. The
+          certificate belongs to the Foundation, so Windows shows
+          <strong>SignPath Foundation</strong> as the publisher. Only the project
+          maintainer can approve a signing request, and requests come from the
+          release workflow in this repository and from nowhere else.</p>
+        <p>The current Windows installer preview is <strong>not yet signed</strong>.
+          Signing starts with the first release after the certificate is issued.
+          Until then, verify the SHA-256 file published beside every download.</p>
+        <p>macOS releases are signed with an Apple Developer ID and notarized by
+          Apple.</p>
+      </div>
+      <div class="card">
+        <span class="micro">Privacy policy</span>
+        <p>Patchthrough records audio only when you start a recording. Audio,
+          transcripts, and session files stay on your computer. The program never
+          sends them anywhere.</p>
+        <p>The program uses the network for one purpose: to download a
+          transcription model the first time you need it. It checks each model
+          against a pinned SHA-256 hash before loading it.</p>
+        <p>Patchthrough collects no telemetry and no personal data. It has no
+          account, and no server to sign in to.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
     <span>MIT · Began as a detached rebuild of
       <a href="https://github.com/digimata/quill">quill</a> · Transcription by
       Parakeet TDT through <a href="https://github.com/FluidInference/FluidAudio">FluidAudio</a>
+      · Free code signing by <a href="https://signpath.io">SignPath.io</a>,
+      certificate by <a href="https://signpath.org">SignPath Foundation</a> ·
+      <a href="#code-signing">Code signing policy</a>
     </span>
     <a href="https://github.com/nico-herrera/patchthrough">github.com/nico-herrera/patchthrough</a>
   </div>
