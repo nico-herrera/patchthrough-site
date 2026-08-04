@@ -13,9 +13,10 @@ app as the primary call to action. The npm package installs only the standalone
 transcript client. Never describe the npm package as an app installer.
 
 Platform copy has one release boundary: the macOS app and cross-platform CLI are
-available now; the Windows recorder is a hardware-validation preview. Link to its
-public progress and acceptance checklist, but do not add a Windows download until
-the repository publishes a tested installer.
+available now. Windows has a self-contained ZIP and per-user installer preview,
+but it is not a supported public release. Link to its progress and physical-hardware
+acceptance checklist, but do not add a Windows download until automated packaging,
+publisher signing, and the hardware gates pass.
 
 ## Deploy
 
