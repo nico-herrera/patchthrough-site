@@ -604,8 +604,11 @@
     <ul class="trust-list">
       <li class="card">
         <h3>Recording and transcription never use the network</h3>
-        <p>Audio and transcripts stay on your computer. The only download is the
-          transcription models, one time.</p>
+        <p>Audio and transcripts stay on your computer. Patchthrough downloads two
+          things: the transcription models, once, and its own updates. It verifies
+          both before it uses them, the models against pinned hashes and an update
+          against Apple's notarization and the same Developer ID that signed the
+          copy you are running.</p>
       </li>
       <li class="card">
         <h3>A handoff goes only where you send it</h3>
@@ -706,9 +709,12 @@
         <p>Patchthrough records audio only when you start a recording. Audio,
           transcripts, and session files stay on your computer. The program never
           sends them anywhere.</p>
-        <p>The program uses the network for one purpose: to download a
-          transcription model the first time you need it. It checks each model
-          against a pinned SHA-256 hash before loading it.</p>
+        <p>The program uses the network for two purposes. It downloads a
+          transcription model the first time you need it, and checks each model
+          against a pinned SHA-256 hash before loading it. It also asks GitHub about
+          twice a day whether a newer release exists. That request carries no
+          account and no identifier, nothing installs until you click, and Settings
+          turns the checks off.</p>
         <p>Patchthrough collects no telemetry and no personal data. It has no
           account, and no server to sign in to.</p>
       </div>
